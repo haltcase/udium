@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { HttpMethod } from "@/types";
 import { isValidParameter } from "@/lib/util";
-import render from ".api/apis/render-api";
+import render from "@api/render-api";
 
 /*
  * Note: This endpoint is to check if a domain still has its nameservers/record configured correctly.
