@@ -13,7 +13,7 @@
     "type-check": "tsc"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "18"
   },
   "dependencies": {
     "@api/render-api": "link:.api\\apis\\render-api",
