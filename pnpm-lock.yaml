@@ -15,6 +15,7 @@ importers:
       '@types/node': ^17.0.10
       '@types/react': ^17.0.40
       '@types/react-dom': ^17.0.11
+      '@types/unist': ^2.0.6
       '@vercel/analytics': ^0.1.3
       api: ^5.0.3
       autoprefixer: ^10.4.2
@@ -88,6 +89,7 @@ importers:
       '@types/node': 17.0.45
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
+      '@types/unist': 2.0.6
       autoprefixer: 10.4.13_postcss@8.4.19
       csstype: 3.1.1
       eslint: 8.11.0
@@ -650,7 +652,6 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
-    dev: false
 
   /@typescript-eslint/parser/5.45.0_tosoaojwajx6jafnq4kld6tawm:
     resolution: {integrity: sha512-brvs/WSM4fKUmF5Ot/gEve6qYiCMjm6w4HkHPfS6ZNmxTS0m0iNN4yOChImaCkqc1hRwFGqUyanMXuGal6oyyQ==}
