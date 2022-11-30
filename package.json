@@ -1,15 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "format:write": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
-    "format": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
-    "lint": "next lint",
-    "prebuild": "prisma generate",
-    "predev": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy",
+    "build": "pnpm prisma generate && next build",
+    "dev": "pnpm prisma generate && next dev",
     "start": "next start",
+    "format": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "lint": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\" && next lint",
+    "prisma:migrate": "prisma migrate deploy",
     "type-check": "tsc"
   },
   "engines": {
