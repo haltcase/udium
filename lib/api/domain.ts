@@ -25,12 +25,14 @@ export async function createDomain(
   }
 
   try {
-    const response = await render.createCustomDomain(
-      {
-        name: domain,
-      },
-      { serviceId }
-    );
+    const response = await render
+      .auth(process.env.AUTH_BEARER_TOKEN)
+      .createCustomDomain(
+        {
+          name: domain,
+        },
+        { serviceId }
+      );
 
     if (response.status !== 201) {
       const body = await response.res.json();
@@ -80,7 +82,7 @@ export async function deleteDomain(
   }
 
   try {
-    await render.deleteCustomDomain({
+    await render.auth(process.env.AUTH_BEARER_TOKEN).deleteCustomDomain({
       serviceId,
       customDomainIdOrName: domain,
     });

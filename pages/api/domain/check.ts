@@ -41,10 +41,12 @@ export default async function post(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json(isAvailable);
     }
 
-    const response = await render.getCustomDomain({
-      serviceId,
-      customDomainIdOrName: domain,
-    });
+    const response = await render
+      .auth(process.env.AUTH_BEARER_TOKEN)
+      .getCustomDomain({
+        serviceId,
+        customDomainIdOrName: domain,
+      });
 
     const isValid = response.data?.verificationStatus === "verified";
 
