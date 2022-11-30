@@ -13,7 +13,7 @@
     "node": "18"
   },
   "dependencies": {
-    "@api/render-api": "link:.api\\apis\\render-api",
+    "@api/render-api": "workspace:*",
     "@headlessui/react": "^1.7.4",
     "@next-auth/prisma-adapter": "^1.0.1",
     "@prisma/client": "^3.8.1",
@@ -52,8 +52,10 @@
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.11",
     "autoprefixer": "^10.4.2",
+    "csstype": "^3.1.1",
     "eslint": "8.11.0",
     "eslint-config-next": "^13.0.2",
+    "openapi-types": "^12.0.2",
     "postcss": "^8.4.5",
     "prettier": "^2.5.1",
     "prisma": "^3.8.1",
