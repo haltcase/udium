@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "render-api",
+      "source": "@render-api/v1.0#f084kp1glacw8qb7",
+      "integrity": "sha512-+pglIFG1yzju8RPPEiw9fro289Pf9cSwf0p54135gMuGc69pRKxlIFgzNOOIFi5aH4pzHOJEZfWIsb7J2ovalg==",
+      "installerVersion": "5.0.3"
+    }
+  ]
+}

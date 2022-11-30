@@ -1,0 +1,40 @@
+# see https://dashboard.render.com/blueprints
+
+# previewsEnabled: true
+# previewsExpireAfterDays: 2
+
+services:
+  - type: web
+    name: udium
+    env: node
+    plan: free
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+
+    healthCheckPath: /api/status
+
+    # specify the plan for the PR deployment
+    # previewPlan: starter
+
+    # preview environment initialization script
+    # initialDeployHook: pnpm exec tsx ./prisma/seed.ts
+
+    buildFilter:
+      ignoredPaths:
+        - ".media"
+        - ".devcontainer"
+        - ".vscode"
+        - ".env.development"
+        - ".eslintrc*"
+        - ".prettier*"
+        - "scripts"
+        - "eslint.config.js"
+        - "readme.md"
+
+    domains:
+      # TODO: this is a placeholder
+      - udium.haltcase.dev
+
+    envVars:
+      - key: DATABASE_URL
+        sync: false

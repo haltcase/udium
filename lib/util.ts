@@ -1,3 +1,7 @@
+export const isValidParameter = (
+  value: string | string[] | undefined
+): value is string => value != null && !Array.isArray(value);
+
 export const capitalize = (s: string) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);

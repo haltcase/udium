@@ -1,13 +1,15 @@
 import prisma from "@/lib/prisma";
-import { HttpMethod } from "@/types";
+import render from ".api/apis/render-api";
 
 import type { NextApiRequest, NextApiResponse } from "next";
+
+import { isValidParameter } from "@/lib/util";
 
 /**
  * Add Domain
  *
- * Adds a new domain to the Vercel project using a provided
- * `domain` & `siteId` query parameters
+ * Adds a new domain to the Render service using a provided
+ * `domain` & `serviceId` query parameters
  *
  * @param req - Next.js API Request
  * @param res - Next.js API Response
@@ -16,36 +18,35 @@ export async function createDomain(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse> {
-  const { domain, siteId } = req.query;
+  const { domain, serviceId } = req.query;
 
-  if (Array.isArray(domain) || Array.isArray(siteId))
-    return res.status(400).end("Bad request. Query parameters are not valid.");
+  if (!isValidParameter(domain) || !isValidParameter(serviceId)) {
+    return res.status(400).end("Bad request: query parameters are not valid");
+  }
 
   try {
-    const response = await fetch(
-      `https://api.vercel.com/v8/projects/${process.env.PROJECT_ID_VERCEL}/domains?teamId=${process.env.TEAM_ID_VERCEL}`,
+    const response = await render.createCustomDomain(
       {
-        body: `{\n  "name": "${domain}"\n}`,
-        headers: {
-          Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        method: HttpMethod.POST,
-      }
+        name: domain,
+      },
+      { serviceId }
     );
 
-    const data = await response.json();
+    if (response.status !== 201) {
+      const body = await response.res.json();
+      return res.status(response.status).end(body.message);
+    }
 
-    // Domain is already owned by another team but you can request delegation to access it
-    if (data.error?.code === "forbidden") return res.status(403).end();
+    // // Domain is already owned by another team but you can request delegation to access it
+    // if (response.error?.code === "forbidden") return res.status(403).end();
 
-    // Domain is already being used by a different project
-    if (data.error?.code === "domain_taken") return res.status(409).end();
+    // // Domain is already being used by a different project
+    // if (response.error?.code === "domain_taken") return res.status(409).end();
 
     // Domain is successfully added
     await prisma.site.update({
       where: {
-        id: siteId,
+        id: serviceId,
       },
       data: {
         customDomain: domain,
@@ -72,27 +73,21 @@ export async function deleteDomain(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse> {
-  const { domain, siteId } = req.query;
+  const { domain, serviceId } = req.query;
 
-  if (Array.isArray(domain) || Array.isArray(siteId))
-    res.status(400).end("Bad request. Query parameters cannot be an array.");
+  if (!isValidParameter(domain) || !isValidParameter(serviceId)) {
+    return res.status(400).end("Bad request: query parameters are not valid");
+  }
 
   try {
-    const response = await fetch(
-      `https://api.vercel.com/v6/domains/${domain}?teamId=${process.env.TEAM_ID_VERCEL}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
-        },
-        method: HttpMethod.DELETE,
-      }
-    );
-
-    await response.json();
+    await render.deleteCustomDomain({
+      serviceId,
+      customDomainIdOrName: domain,
+    });
 
     await prisma.site.update({
       where: {
-        id: siteId as string,
+        id: serviceId,
       },
       data: {
         customDomain: null,
