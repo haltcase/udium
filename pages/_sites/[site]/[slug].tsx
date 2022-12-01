@@ -59,7 +59,7 @@ export default function Post({
     description: data.description,
     logo: "/logo.png",
     ogImage: data.image,
-    ogUrl: `https://${data.site?.subdomain}.udium.onrender.com/${data.slug}`,
+    ogUrl: `https://${data.site?.subdomain}.udium.bolingen.me/${data.slug}`,
     title: data.title,
   } as Meta;
 
@@ -287,7 +287,7 @@ async function getMdxSource(postContents: string) {
     .use(remarkMdx)
     // Replaces tweets with static <Tweet /> component
     .use(replaceTweets)
-    // Replaces examples with <Example /> component (only for demo.udium.onrender.com)
+    // Replaces examples with <Example /> component (only for demo.udium.bolingen.me)
     .use(() => replaceExamples(prisma))
     .process(postContents);
 

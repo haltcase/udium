@@ -191,7 +191,7 @@ export default function Post() {
       if (response.ok) {
         mutate(`/api/post?postId=${postId}`);
         router.push(
-          `https://${post?.site?.subdomain}.udium.onrender.com/${post?.slug}`
+          `https://${post?.site?.subdomain}.udium.bolingen.me/${post?.slug}`
         );
       }
     } catch (error) {

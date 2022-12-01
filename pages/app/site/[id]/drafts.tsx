@@ -106,10 +106,10 @@ export default function SiteDrafts() {
                       </p>
                       <a
                         className="font-cal px-3 py-1 tracking-wide rounded bg-gray-200 text-gray-600 absolute bottom-5 left-10 whitespace-nowrap"
-                        href={`https://${data.site?.subdomain}.udium.onrender.com/${post.slug}`}
+                        href={`https://${data.site?.subdomain}.udium.bolingen.me/${post.slug}`}
                         rel="noreferrer"
                         target="_blank">
-                        {data.site?.subdomain}.udium.onrender.com/{post.slug} ↗
+                        {data.site?.subdomain}.udium.bolingen.me/{post.slug} ↗
                       </a>
                     </div>
                   </div>

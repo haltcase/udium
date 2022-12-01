@@ -33,7 +33,7 @@ export default function Index({ stringifiedData }: IndexProps) {
     ogImage: data.image,
     ogUrl: data.customDomain
       ? data.customDomain
-      : `https://${data.subdomain}.udium.onrender.com`,
+      : `https://${data.subdomain}.udium.bolingen.me`,
   } as Meta;
 
   return (

@@ -141,7 +141,7 @@ export default function Layout({ meta, children, subdomain }: LayoutProps) {
             } flex space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row flex-col lg:w-auto w-full text-center`}>
             <a
               className="flex-auto font-cal text-lg rounded-md py-1 sm:py-3 px-5 text-black border border-gray-200 hover:border-black transition-all ease-in-out duration-150 whitespace-no-wrap"
-              href="https://app.udium.onrender.com"
+              href="https://app.udium.bolingen.me"
               rel="noreferrer"
               target="_blank">
               Create your publication

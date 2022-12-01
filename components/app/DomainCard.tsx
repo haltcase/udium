@@ -184,7 +184,7 @@ export default function DomainCard({ data }: DomainCardProps) {
                   <p className="text-sm font-bold">Value</p>
                   <p className="text-sm font-mono mt-2">
                     {recordType == "CNAME"
-                      ? `cname.udium.onrender.com`
+                      ? `cname.udium.bolingen.me`
                       : `76.76.21.21`}
                   </p>
                 </div>
