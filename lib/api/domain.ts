@@ -26,6 +26,21 @@ export async function createDomain(
   try {
     const response = await render
       .auth(process.env.AUTH_BEARER_TOKEN)
+      .getCustomDomains({
+        serviceId,
+      });
+
+    if (response.data?.length ?? 0 > 20) {
+      return res.status(500).end("Domain limit reached");
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(500).end(e);
+  }
+
+  try {
+    const response = await render
+      .auth(process.env.AUTH_BEARER_TOKEN)
       .createCustomDomain(
         {
           name: domain,
