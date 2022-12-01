@@ -15,7 +15,7 @@ declare global {
       RENDER_SERVICE_ID: string;
       RENDER_SERVICE_NAME: string;
       RENDER_SERVICE_TYPE: "web" | "pserv" | "cron" | "worker" | "static";
-      RENDER: true;
+      RENDER: "true";
     }
   }
 }
