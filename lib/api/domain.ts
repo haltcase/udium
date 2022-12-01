@@ -21,7 +21,7 @@ export async function createDomain(
     return res.status(400).end("Bad request: query parameters are not valid");
   }
 
-  const serviceId = process.env.SERVICE_ID_RENDER;
+  const serviceId = process.env.RENDER_SERVICE_ID;
 
   try {
     const response = await render
@@ -76,7 +76,7 @@ export async function deleteDomain(
     return res.status(400).end("Bad request: query parameters are not valid");
   }
 
-  const serviceId = process.env.SERVICE_ID_RENDER;
+  const serviceId = process.env.RENDER_SERVICE_ID;
 
   try {
     await render.auth(process.env.AUTH_BEARER_TOKEN).deleteCustomDomain({
