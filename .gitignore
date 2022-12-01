@@ -2,8 +2,6 @@
 **.next
 **.env
 **.DS_Store
-**.vercel
 **.git
-.vercel
 
 tsconfig.tsbuildinfo

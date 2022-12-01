@@ -191,7 +191,7 @@ export default function Post() {
       if (response.ok) {
         mutate(`/api/post?postId=${postId}`);
         router.push(
-          `https://${post?.site?.subdomain}.vercel.pub/${post?.slug}`
+          `https://${post?.site?.subdomain}.udium.onrender.com/${post?.slug}`
         );
       }
     } catch (error) {
@@ -240,8 +240,7 @@ export default function Post() {
           <div className="relative mb-6">
             <div
               className="absolute inset-0 flex items-center"
-              aria-hidden="true"
-            >
+              aria-hidden="true">
               <div className="w-full border-t border-gray-300" />
             </div>
           </div>
@@ -280,8 +279,7 @@ export default function Post() {
                 disabled
                   ? "cursor-not-allowed bg-gray-300 border-gray-300"
                   : "bg-black hover:bg-white hover:text-black border-black"
-              } mx-2 w-32 h-12 text-lg text-white border-2 focus:outline-none transition-all ease-in-out duration-150`}
-            >
+              } mx-2 w-32 h-12 text-lg text-white border-2 focus:outline-none transition-all ease-in-out duration-150`}>
               {publishing ? <LoadingDots /> : "Publish  →"}
             </button>
           </div>

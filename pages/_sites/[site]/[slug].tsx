@@ -59,7 +59,7 @@ export default function Post({
     description: data.description,
     logo: "/logo.png",
     ogImage: data.image,
-    ogUrl: `https://${data.site?.subdomain}.vercel.pub/${data.slug}`,
+    ogUrl: `https://${data.site?.subdomain}.udium.onrender.com/${data.slug}`,
     title: data.title,
   } as Meta;
 
@@ -85,8 +85,7 @@ export default function Post({
               : `https://github.com/${data.site?.user?.gh_username}`
           }
           rel="noreferrer"
-          target="_blank"
-        >
+          target="_blank">
           <div className="my-8">
             <div className="relative w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden inline-block align-middle">
               {data.site?.user?.image ? (
@@ -135,8 +134,7 @@ export default function Post({
         <div className="relative mt-10 sm:mt-20 mb-20">
           <div
             className="absolute inset-0 flex items-center"
-            aria-hidden="true"
-          >
+            aria-hidden="true">
             <div className="w-full border-t border-gray-300" />
           </div>
           <div className="relative flex justify-center">
@@ -289,7 +287,7 @@ async function getMdxSource(postContents: string) {
     .use(remarkMdx)
     // Replaces tweets with static <Tweet /> component
     .use(replaceTweets)
-    // Replaces examples with <Example /> component (only for demo.vercel.pub)
+    // Replaces examples with <Example /> component (only for demo.udium.onrender.com)
     .use(() => replaceExamples(prisma))
     .process(postContents);
 

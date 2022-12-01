@@ -5,13 +5,6 @@ import { HttpMethod } from "@/types";
 import { isValidParameter } from "@/lib/util";
 import render from "@api/render-api";
 
-/*
- * Note: This endpoint is to check if a domain still has its nameservers/record configured correctly.
- * To request access to a domain that belongs to another team, you need to use the
- * `/verify` endpoint: https://vercel.com/docs/rest-api#endpoints/projects/verify-project-domain
- * You can see an implementation example here: https://github.com/vercel/examples/tree/main/solutions/domains-api
- */
-
 const subdomainRegex = /[^a-zA-Z0-9/-]+/g;
 
 export default async function post(req: NextApiRequest, res: NextApiResponse) {

@@ -6,10 +6,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { isValidParameter } from "@/lib/util";
 
 /**
- * Add Domain
- *
- * Adds a new domain to the Render service using a provided
- * `domain` & `serviceId` query parameters
+ * Add a new domain to the Render service.
  *
  * @param req - Next.js API Request
  * @param res - Next.js API Response
@@ -47,7 +44,6 @@ export async function createDomain(
     // // Domain is already being used by a different project
     // if (response.error?.code === "domain_taken") return res.status(409).end();
 
-    // Domain is successfully added
     await prisma.site.update({
       where: {
         id: serviceId,
@@ -65,10 +61,7 @@ export async function createDomain(
 }
 
 /**
- * Delete Domain
- *
- * Remove a domain from the vercel project using a provided
- * `domain` & `siteId` query parameters
+ * Remove a domain from the Render service.
  *
  * @param req - Next.js API Request
  * @param res - Next.js API Response

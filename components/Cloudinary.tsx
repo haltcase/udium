@@ -25,7 +25,7 @@ export default function CloudinaryUploadWidget({
   function showWidget() {
     const widget: CloudinaryWidget = window.cloudinary.createUploadWidget(
       {
-        cloudName: "vercel-platforms",
+        cloudName: "udium",
         uploadPreset: "w0vnflc6",
         cropping: true,
       },
