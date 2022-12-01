@@ -7,7 +7,7 @@
     "format": "prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
     "lint": "prettier \"**/*.{css,js,json,jsx,ts,tsx}\" && next lint",
     "prisma:migrate": "prisma migrate deploy",
-    "type-check": "tsc"
+    "pscale:connect": "pscale connect platforms main --port 3309"
   },
   "engines": {
     "node": "18"
