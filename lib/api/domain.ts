@@ -18,11 +18,13 @@ export async function createDomain(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse> {
-  const { domain, serviceId } = req.query;
+  const { domain } = req.query;
 
-  if (!isValidParameter(domain) || !isValidParameter(serviceId)) {
+  if (!isValidParameter(domain)) {
     return res.status(400).end("Bad request: query parameters are not valid");
   }
+
+  const serviceId = process.env.SERVICE_ID_RENDER;
 
   try {
     const response = await render
@@ -75,11 +77,13 @@ export async function deleteDomain(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse> {
-  const { domain, serviceId } = req.query;
+  const { domain } = req.query;
 
-  if (!isValidParameter(domain) || !isValidParameter(serviceId)) {
+  if (!isValidParameter(domain)) {
     return res.status(400).end("Bad request: query parameters are not valid");
   }
+
+  const serviceId = process.env.SERVICE_ID_RENDER;
 
   try {
     await render.auth(process.env.AUTH_BEARER_TOKEN).deleteCustomDomain({
