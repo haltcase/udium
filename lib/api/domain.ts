@@ -15,9 +15,9 @@ export async function createDomain(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse> {
-  const { domain } = req.query;
+  const { domain, siteId } = req.query;
 
-  if (!isValidParameter(domain)) {
+  if (!isValidParameter(domain) || !isValidParameter(siteId)) {
     return res.status(400).end("Bad request: query parameters are not valid");
   }
 
@@ -61,7 +61,7 @@ export async function createDomain(
 
     await prisma.site.update({
       where: {
-        id: serviceId,
+        id: siteId,
       },
       data: {
         customDomain: domain,
@@ -85,9 +85,9 @@ export async function deleteDomain(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | NextApiResponse> {
-  const { domain } = req.query;
+  const { domain, siteId } = req.query;
 
-  if (!isValidParameter(domain)) {
+  if (!isValidParameter(domain) || !isValidParameter(siteId)) {
     return res.status(400).end("Bad request: query parameters are not valid");
   }
 
@@ -101,7 +101,7 @@ export async function deleteDomain(
 
     await prisma.site.update({
       where: {
-        id: serviceId,
+        id: siteId,
       },
       data: {
         customDomain: null,
