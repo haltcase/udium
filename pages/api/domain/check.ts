@@ -48,6 +48,6 @@ export default async function post(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json(isValid);
   } catch (error) {
     console.error(error);
-    return res.status(500).end(error);
+    return res.status(500).json(JSON.stringify(error));
   }
 }
