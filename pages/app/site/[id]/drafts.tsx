@@ -1,15 +1,14 @@
+import type { Post, Site } from "@prisma/client";
 import Link from "next/link";
-import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 
-import BlurImage from "@/components/BlurImage";
 import Layout from "@/components/app/Layout";
 import LoadingDots from "@/components/app/loading-dots";
+import BlurImage from "@/components/BlurImage";
 import { fetcher } from "@/lib/fetcher";
 import { HttpMethod } from "@/types";
-
-import type { Post, Site } from "@prisma/client";
 
 interface SitePostData {
   posts: Array<Post>;
@@ -65,7 +64,8 @@ export default function SiteDrafts() {
               creatingPost
                 ? "cursor-not-allowed bg-gray-300 border-gray-300"
                 : "text-white bg-black hover:bg-white hover:text-black border-black"
-            } font-cal text-lg w-3/4 sm:w-40 tracking-wide border-2 px-5 py-3 transition-all ease-in-out duration-150`}>
+            } font-cal text-lg w-3/4 sm:w-40 tracking-wide border-2 px-5 py-3 transition-all ease-in-out duration-150`}
+          >
             {creatingPost ? (
               <LoadingDots />
             ) : (
@@ -108,7 +108,8 @@ export default function SiteDrafts() {
                         className="font-cal px-3 py-1 tracking-wide rounded bg-gray-200 text-gray-600 absolute bottom-5 left-10 whitespace-nowrap"
                         href={`https://${data.site?.subdomain}.udium.bolingen.me/${post.slug}`}
                         rel="noreferrer"
-                        target="_blank">
+                        target="_blank"
+                      >
                         {data.site?.subdomain}.udium.bolingen.me/{post.slug} ↗
                       </a>
                     </div>
@@ -137,7 +138,8 @@ export default function SiteDrafts() {
             [0, 1].map((i) => (
               <div
                 key={i}
-                className="flex flex-col md:flex-row md:h-60 rounded-lg overflow-hidden border border-gray-200">
+                className="flex flex-col md:flex-row md:h-60 rounded-lg overflow-hidden border border-gray-200"
+              >
                 <div className="relative w-full h-60 md:h-auto md:w-1/3 md:flex-none bg-gray-300 animate-pulse" />
                 <div className="relative p-10 grid gap-5">
                   <div className="w-28 h-10 rounded-md bg-gray-300 animate-pulse" />

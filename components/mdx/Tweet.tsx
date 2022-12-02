@@ -1,8 +1,9 @@
-import BlurImage from "../BlurImage";
 import { format } from "date-fns";
 import { useState } from "react";
 
 import type { TweetData, WithClassName } from "@/types";
+
+import BlurImage from "../BlurImage";
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
@@ -57,7 +58,7 @@ export default function Tweet({ id, metadata, className }: TweetProps) {
   const createdAt = new Date(created_at);
 
   const regexToMatchURL =
-    /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+    /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?/;
 
   const formattedText = text
     // Format all hyperlinks
@@ -71,7 +72,7 @@ export default function Tweet({ id, metadata, className }: TweetProps) {
     )
     // Format all @ mentions
     .replace(
-      /\B\@([\w\-]+)/gim,
+      /\B@([\w-]+)/gim,
       (match) =>
         `<a style="color: rgb(29,161,242); font-weight:normal; text-decoration: none" href="https://twitter.com/${match.replace(
           "@",

@@ -1,28 +1,27 @@
-import remarkMdx from "remark-mdx";
-import { MDXRemote } from "next-mdx-remote";
-import { remark } from "remark";
-import { serialize } from "next-mdx-remote/serialize";
+import type { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { MDXRemote } from "next-mdx-remote";
+import { serialize } from "next-mdx-remote/serialize";
+import type { ParsedUrlQuery } from "querystring";
+import { remark } from "remark";
+import remarkMdx from "remark-mdx";
 
 import BlogCard from "@/components/BlogCard";
 import BlurImage from "@/components/BlurImage";
 import Date from "@/components/Date";
 import Examples from "@/components/mdx/Examples";
+import Tweet from "@/components/mdx/Tweet";
 import Layout from "@/components/sites/Layout";
 import Loader from "@/components/sites/Loader";
 import prisma from "@/lib/prisma";
-import Tweet from "@/components/mdx/Tweet";
 import {
   replaceExamples,
   replaceLinks,
   replaceTweets,
 } from "@/lib/remark-plugins";
-
-import type { AdjacentPost, Meta, _SiteSlugData } from "@/types";
-import type { GetStaticPaths, GetStaticProps } from "next";
-import type { MDXRemoteSerializeResult } from "next-mdx-remote";
-import type { ParsedUrlQuery } from "querystring";
 import { placeholderBlurhash } from "@/lib/util";
+import type { _SiteSlugData, AdjacentPost, Meta } from "@/types";
 
 const components = {
   a: replaceLinks,
@@ -85,7 +84,8 @@ export default function Post({
               : `https://github.com/${data.site?.user?.gh_username}`
           }
           rel="noreferrer"
-          target="_blank">
+          target="_blank"
+        >
           <div className="my-8">
             <div className="relative w-8 h-8 md:w-12 md:h-12 rounded-full overflow-hidden inline-block align-middle">
               {data.site?.user?.image ? (
@@ -126,6 +126,7 @@ export default function Post({
       </div>
 
       <article className="w-11/12 sm:w-3/4 m-auto prose prose-md sm:prose-lg">
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/* @ts-ignore */}
         <MDXRemote {...data.mdxSource} components={components} />
       </article>
@@ -134,7 +135,8 @@ export default function Post({
         <div className="relative mt-10 sm:mt-20 mb-20">
           <div
             className="absolute inset-0 flex items-center"
-            aria-hidden="true">
+            aria-hidden="true"
+          >
             <div className="w-full border-t border-gray-300" />
           </div>
           <div className="relative flex justify-center">
@@ -243,10 +245,12 @@ export const getStaticProps: GetStaticProps<PostProps, PathProps> = async ({
     },
   })) as _SiteSlugData | null;
 
-  if (!data) return { notFound: true, revalidate: 10 };
+  if (!data) {
+    return { notFound: true, revalidate: 10 };
+  }
 
   const [mdxSource, adjacentPosts] = await Promise.all([
-    getMdxSource(data.content!),
+    getMdxSource(data.content),
     prisma.post.findMany({
       where: {
         site: {
@@ -280,7 +284,13 @@ export const getStaticProps: GetStaticProps<PostProps, PathProps> = async ({
   };
 };
 
-async function getMdxSource(postContents: string) {
+const getMdxSource = async (
+  postContents: string | null
+): Promise<ReturnType<typeof serialize> | null> => {
+  if (postContents == null) {
+    return null;
+  }
+
   // Use remark plugins to convert markdown into HTML string
   const processedContent = await remark()
     // Native remark plugin that parses markdown into MDX
@@ -298,4 +308,4 @@ async function getMdxSource(postContents: string) {
   const mdxSource = await serialize(contentHtml);
 
   return mdxSource;
-}
+};

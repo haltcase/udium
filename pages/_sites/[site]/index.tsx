@@ -1,16 +1,16 @@
-import Layout from "@/components/sites/Layout";
+import type { GetStaticPaths, GetStaticProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import BlurImage from "@/components/BlurImage";
-import BlogCard from "@/components/BlogCard";
-import Loader from "@/components/sites/Loader";
-import Date from "@/components/Date";
-import prisma from "@/lib/prisma";
-
-import type { GetStaticPaths, GetStaticProps } from "next";
-import type { _SiteData, Meta } from "@/types";
 import type { ParsedUrlQuery } from "querystring";
+
+import BlogCard from "@/components/BlogCard";
+import BlurImage from "@/components/BlurImage";
+import Date from "@/components/Date";
+import Layout from "@/components/sites/Layout";
+import Loader from "@/components/sites/Loader";
+import prisma from "@/lib/prisma";
 import { placeholderBlurhash } from "@/lib/util";
+import type { _SiteData, Meta } from "@/types";
 
 interface PathProps extends ParsedUrlQuery {
   site: string;

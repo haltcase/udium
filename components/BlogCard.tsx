@@ -1,9 +1,10 @@
+import type { Post } from "@prisma/client";
 import Link from "next/link";
+
+import { placeholderBlurhash } from "@/lib/util";
+
 import BlurImage from "./BlurImage";
 import Date from "./Date";
-
-import type { Post } from "@prisma/client";
-import { placeholderBlurhash } from "@/lib/util";
 
 interface BlogCardProps {
   data: Pick<

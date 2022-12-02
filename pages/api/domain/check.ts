@@ -1,9 +1,9 @@
+import render from "@api/render-api";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "@/lib/prisma";
-import { HttpMethod } from "@/types";
 import { isValidParameter } from "@/lib/util";
-import render from "@api/render-api";
+import { HttpMethod } from "@/types";
 
 const subdomainRegex = /[^a-zA-Z0-9/-]+/g;
 

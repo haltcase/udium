@@ -1,13 +1,13 @@
 import Head from "next/head";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { signOut } from "next-auth/react";
-import Loader from "./Loader";
-import useRequireAuth from "../../lib/useRequireAuth";
 
 import type { WithChildren } from "@/types";
+
+import useRequireAuth from "../../lib/useRequireAuth";
+import Loader from "./Loader";
 
 interface LayoutProps extends WithChildren {
   siteId?: string;

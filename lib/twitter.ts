@@ -1,8 +1,8 @@
 import { stringify as queryStringify } from "querystring";
 
-import { getTwitterMedia } from "./twitter-media";
-
 import type { Tweet, TweetData } from "@/types";
+
+import { getTwitterMedia } from "./twitter-media";
 
 const queryParams = queryStringify({
   expansions:
@@ -14,6 +14,32 @@ const queryParams = queryStringify({
     "duration_ms,height,media_key,preview_image_url,type,url,width,public_metrics",
   "poll.fields": "duration_minutes,end_datetime,id,options,voting_status",
 });
+
+// Function to distinguish between external URLs and external t.co links and internal t.co links
+// (e.g. images, videos, gifs, quote tweets) and remove/replace them accordingly
+const getExternalUrls = (tweet: TweetData) => {
+  const externalURLs = tweet?.entities?.urls;
+
+  const mappings: {
+    [I in string]: string;
+  } = {};
+
+  if (externalURLs)
+    externalURLs.map((url) => {
+      mappings[url.url] =
+        !url.display_url.startsWith("pic.twitter.com") &&
+        !url.display_url.startsWith("twitter.com")
+          ? url.expanded_url
+          : "";
+    });
+
+  let processedText = tweet?.text;
+  Object.entries(mappings).map(([key, value]) => {
+    processedText = processedText.replace(key, value);
+  });
+
+  return processedText;
+};
 
 export const getTweets = async (id: string) => {
   try {
@@ -45,32 +71,6 @@ export const getTweets = async (id: string) => {
           ...fullReferencedTweet,
         };
       }) || [];
-
-    // Function to distinguish between external URLs and external t.co links and internal t.co links
-    // (e.g. images, videos, gifs, quote tweets) and remove/replace them accordingly
-    function getExternalUrls(tweet: TweetData) {
-      const externalURLs = tweet?.entities?.urls;
-
-      let mappings: {
-        [I in string]: string;
-      } = {};
-
-      if (externalURLs)
-        externalURLs.map((url) => {
-          mappings[url.url] =
-            !url.display_url.startsWith("pic.twitter.com") &&
-            !url.display_url.startsWith("twitter.com")
-              ? url.expanded_url
-              : "";
-        });
-
-      let processedText = tweet?.text;
-      Object.entries(mappings).map(([key, value]) => {
-        processedText = processedText.replace(key, value);
-      });
-
-      return processedText;
-    }
 
     if (tweet.data) tweet.data.text = getExternalUrls(tweet?.data); // removing/replacing t.co links for main tweet
     tweet?.includes?.tweets?.map((twt) => {

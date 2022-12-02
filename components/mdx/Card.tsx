@@ -1,6 +1,6 @@
-import BlurImage from "../BlurImage";
-
 import type { MdxCardData } from "@/types";
+
+import BlurImage from "../BlurImage";
 
 interface CardProps {
   data: MdxCardData;

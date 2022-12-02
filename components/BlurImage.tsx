@@ -1,8 +1,8 @@
 import cn from "clsx";
 import Image from "next/image";
+import type { ComponentProps } from "react";
 import { useState } from "react";
 
-import type { ComponentProps } from "react";
 import type { WithClassName } from "@/types";
 
 interface BlurImageProps extends WithClassName, ComponentProps<typeof Image> {

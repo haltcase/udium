@@ -1,8 +1,7 @@
-import prisma from "@/lib/prisma";
 import render from "@api/render-api";
-
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import prisma from "@/lib/prisma";
 import { isValidParameter } from "@/lib/util";
 
 /**

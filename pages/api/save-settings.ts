@@ -1,7 +1,7 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+
 import prisma from "@/lib/prisma";
 import { HttpMethod } from "@/types";
-
-import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function SaveSiteSettings(
   req: NextApiRequest,

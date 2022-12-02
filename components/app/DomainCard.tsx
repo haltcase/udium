@@ -1,10 +1,10 @@
-import useSWR, { mutate } from "swr";
+import type { Site } from "@prisma/client";
 import { useState } from "react";
+import useSWR, { mutate } from "swr";
+
 import LoadingDots from "@/components/app/loading-dots";
 import { fetcher } from "@/lib/fetcher";
 import { HttpMethod } from "@/types";
-
-import type { Site } from "@prisma/client";
 
 type DomainData = Pick<
   Site,
@@ -41,7 +41,8 @@ export default function DomainCard({ data }: DomainCardProps) {
           className="text-xl font-semibold flex justify-center sm:justify-start items-center"
           href={`http://${data.customDomain}`}
           rel="noreferrer"
-          target="_blank">
+          target="_blank"
+        >
           {data.customDomain}
           <span className="inline-block ml-2">
             <svg
@@ -53,7 +54,8 @@ export default function DomainCard({ data }: DomainCardProps) {
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
-              shapeRendering="geometricPrecision">
+              shapeRendering="geometricPrecision"
+            >
               <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
               <path d="M15 3h6v6" />
               <path d="M10 14L21 3" />
@@ -70,7 +72,8 @@ export default function DomainCard({ data }: DomainCardProps) {
               isValidating
                 ? "cursor-not-allowed bg-gray-100"
                 : "bg-white hover:text-black hover:border-black"
-            } text-gray-500 border-gray-200 py-1.5 w-24 text-sm border-solid border rounded-md focus:outline-none transition-all ease-in-out duration-150`}>
+            } text-gray-500 border-gray-200 py-1.5 w-24 text-sm border-solid border rounded-md focus:outline-none transition-all ease-in-out duration-150`}
+          >
             {isValidating ? <LoadingDots /> : "Refresh"}
           </button>
           <button
@@ -93,7 +96,8 @@ export default function DomainCard({ data }: DomainCardProps) {
             disabled={removing}
             className={`${
               removing ? "cursor-not-allowed bg-gray-100" : ""
-            }bg-red-500 text-white border-red-500 hover:text-red-500 hover:bg-white py-1.5 w-24 text-sm border-solid border rounded-md focus:outline-none transition-all ease-in-out duration-150`}>
+            }bg-red-500 text-white border-red-500 hover:text-red-500 hover:bg-white py-1.5 w-24 text-sm border-solid border rounded-md focus:outline-none transition-all ease-in-out duration-150`}
+          >
             {removing ? <LoadingDots /> : "Remove"}
           </button>
         </div>
@@ -107,7 +111,8 @@ export default function DomainCard({ data }: DomainCardProps) {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          shapeRendering="geometricPrecision">
+          shapeRendering="geometricPrecision"
+        >
           <circle cx="12" cy="12" r="10" fill={valid ? "#1976d2" : "#d32f2f"} />
           {valid ? (
             <>
@@ -127,7 +132,8 @@ export default function DomainCard({ data }: DomainCardProps) {
         <p
           className={`${
             valid ? "text-black font-normal" : "text-red-700 font-medium"
-          } text-sm`}>
+          } text-sm`}
+        >
           {valid ? "Valid" : "Invalid"} Configuration
         </p>
       </div>
@@ -144,7 +150,8 @@ export default function DomainCard({ data }: DomainCardProps) {
                   recordType == "CNAME"
                     ? "text-black border-black"
                     : "text-gray-400 border-white"
-                } text-sm border-b-2 pb-1 transition-all ease duration-150`}>
+                } text-sm border-b-2 pb-1 transition-all ease duration-150`}
+              >
                 CNAME Record (subdomains)
               </button>
               {/* if the custom domain is a subdomain, only show CNAME record */}
@@ -155,7 +162,8 @@ export default function DomainCard({ data }: DomainCardProps) {
                     recordType == "A"
                       ? "text-black border-black"
                       : "text-gray-400 border-white"
-                  } text-sm border-b-2 pb-1 transition-all ease duration-150`}>
+                  } text-sm border-b-2 pb-1 transition-all ease duration-150`}
+                >
                   A Record (apex domain)
                 </button>
               )}

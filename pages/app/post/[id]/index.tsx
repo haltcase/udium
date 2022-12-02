@@ -1,19 +1,17 @@
-import TextareaAutosize from "react-textarea-autosize";
+import { useRouter } from "next/router";
+import type { ChangeEvent } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import TextareaAutosize from "react-textarea-autosize";
 import useSWR, { mutate } from "swr";
 import { useDebounce } from "use-debounce";
-import { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
 
 import Layout from "@/components/app/Layout";
 import Loader from "@/components/app/Loader";
 import LoadingDots from "@/components/app/loading-dots";
 import { fetcher } from "@/lib/fetcher";
-import { HttpMethod } from "@/types";
-
-import type { ChangeEvent } from "react";
-
 import type { WithSitePost } from "@/types";
+import { HttpMethod } from "@/types";
 
 interface PostData {
   title: string;
@@ -154,7 +152,7 @@ export default function Post() {
 
   useEffect(() => {
     function clickedSave(e: KeyboardEvent) {
-      let charCode = String.fromCharCode(e.which).toLowerCase();
+      const charCode = String.fromCharCode(e.which).toLowerCase();
 
       if ((e.ctrlKey || e.metaKey) && charCode === "s") {
         e.preventDefault();
@@ -240,7 +238,8 @@ export default function Post() {
           <div className="relative mb-6">
             <div
               className="absolute inset-0 flex items-center"
-              aria-hidden="true">
+              aria-hidden="true"
+            >
               <div className="w-full border-t border-gray-300" />
             </div>
           </div>
@@ -279,7 +278,8 @@ export default function Post() {
                 disabled
                   ? "cursor-not-allowed bg-gray-300 border-gray-300"
                   : "bg-black hover:bg-white hover:text-black border-black"
-              } mx-2 w-32 h-12 text-lg text-white border-2 focus:outline-none transition-all ease-in-out duration-150`}>
+              } mx-2 w-32 h-12 text-lg text-white border-2 focus:outline-none transition-all ease-in-out duration-150`}
+            >
               {publishing ? <LoadingDots /> : "Publish  →"}
             </button>
           </div>

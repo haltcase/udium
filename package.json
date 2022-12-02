@@ -5,7 +5,7 @@
     "dev": "pnpm prisma generate && next dev",
     "start": "next start",
     "format": "next lint --fix && prettier --write \"**/*.{css,js,json,jsx,ts,tsx}\"",
-    "lint": "next lint && prettier \"**/*.{css,js,json,jsx,ts,tsx}\"",
+    "lint": "next lint && prettier \"**/*.{css,js,json,jsx,ts,tsx}\" --list-different",
     "prisma:migrate": "prisma migrate deploy",
     "pscale:connect": "pscale connect platforms main --port 3309"
   },

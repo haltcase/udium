@@ -1,14 +1,13 @@
-import Layout from "@/components/app/Layout";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+
+import Layout from "@/components/app/Layout";
+import LoadingDots from "@/components/app/loading-dots";
 import BlurImage from "@/components/BlurImage";
 import CloudinaryUploadWidget from "@/components/Cloudinary";
-import LoadingDots from "@/components/app/loading-dots";
-import { HttpMethod } from "@/types";
-
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-
 import type { UserSettings } from "@/types";
+import { HttpMethod } from "@/types";
 
 export default function AppSettings() {
   const { data: session } = useSession();

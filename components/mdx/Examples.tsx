@@ -1,6 +1,6 @@
-import Card from "./Card";
-
 import type { MdxCardData } from "@/types";
+
+import Card from "./Card";
 
 interface ExamplesProps {
   data: Array<MdxCardData>;
