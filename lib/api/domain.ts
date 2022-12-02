@@ -30,7 +30,7 @@ export async function createDomain(
         serviceId,
       });
 
-    if (response.data?.length ?? 0 > 20) {
+    if ((response.data?.length ?? 0) > 20) {
       return res.status(500).end("Domain limit reached");
     }
   } catch (e) {
