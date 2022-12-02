@@ -13,9 +13,9 @@ export default async function post(req: NextApiRequest, res: NextApiResponse) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { serviceId, domain, subdomain = false } = req.query;
+  const { domain, subdomain = false } = req.query;
 
-  if (!isValidParameter(serviceId) || !isValidParameter(domain)) {
+  if (!isValidParameter(domain)) {
     return res.status(400).end("Bad request: domain parameter is not valid");
   }
 
@@ -33,6 +33,8 @@ export default async function post(req: NextApiRequest, res: NextApiResponse) {
 
       return res.status(200).json(isAvailable);
     }
+
+    const serviceId = process.env.RENDER_SERVICE_ID;
 
     const response = await render
       .auth(process.env.AUTH_BEARER_TOKEN)
