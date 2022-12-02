@@ -17,7 +17,7 @@ importers:
       '@types/react-dom': ^17.0.11
       '@types/unist': ^2.0.6
       api: ^5.0.3
-      autoprefixer: ^10.4.2
+      autoprefixer: 10.4.5
       clsx: ^1.1.1
       csstype: ^3.1.1
       cuid: ^2.1.8
@@ -86,7 +86,7 @@ importers:
       '@types/react': 17.0.52
       '@types/react-dom': 17.0.18
       '@types/unist': 2.0.6
-      autoprefixer: 10.4.13_postcss@8.4.19
+      autoprefixer: 10.4.5_postcss@8.4.19
       csstype: 3.1.1
       eslint: 8.11.0
       eslint-config-next: 13.0.5_tosoaojwajx6jafnq4kld6tawm
@@ -914,8 +914,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autoprefixer/10.4.13_postcss@8.4.19:
-    resolution: {integrity: sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg==}
+  /autoprefixer/10.4.5_postcss@8.4.19:
+    resolution: {integrity: sha512-Fvd8yCoA7lNX/OUllvS+aS1I7WRBclGXsepbvT8ZaPgrH24rgXpZzF0/6Hh3ZEkwg+0AES/Osd196VZmYoEFtw==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
