@@ -3,6 +3,7 @@ import { useState } from "react";
 import useSWR, { mutate } from "swr";
 
 import LoadingDots from "@/components/app/loading-dots";
+import { renderLoadBalancerIp } from "@/lib/constants";
 import { fetcher } from "@/lib/fetcher";
 import { HttpMethod } from "@/types";
 
@@ -186,7 +187,7 @@ export default function DomainCard({ data }: DomainCardProps) {
 									<p className="text-sm font-mono mt-2">
 										{recordType == "CNAME"
 											? `cname.udium.bolingen.me`
-											: `216.24.57.1`}
+											: renderLoadBalancerIp}
 									</p>
 								</div>
 							</div>
