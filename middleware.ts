@@ -14,7 +14,7 @@ export const config = {
 	]
 };
 
-export default function middleware(req: NextRequest) {
+const middleware = async (req: NextRequest) => {
 	const url = req.nextUrl;
 
 	// Get hostname of request (e.g. demo.udium.bolingen.me, demo.localhost:3000)
@@ -59,7 +59,9 @@ export default function middleware(req: NextRequest) {
 		return NextResponse.rewrite(url);
 	}
 
-	// rewrite everything else to `/_sites/[site] dynamic route
+	// rewrite everything else to `/_sites/[site]` dynamic route
 	url.pathname = `/_sites/${currentHost}${url.pathname}`;
 	return NextResponse.rewrite(url);
-}
+};
+
+export default middleware;

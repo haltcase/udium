@@ -1,6 +1,7 @@
 export {};
 
 declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace NodeJS {
 		interface ProcessEnv {
 			AUTH_BEARER_TOKEN: string;
