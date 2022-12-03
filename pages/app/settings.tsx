@@ -9,20 +9,21 @@ import CloudinaryUploadWidget from "@/components/Cloudinary";
 import type { UserSettings } from "@/types";
 import { HttpMethod } from "@/types";
 
-export default function AppSettings() {
+const AppSettings = () => {
 	const { data: session } = useSession();
 
 	const [saving, setSaving] = useState<boolean>(false);
 	const [data, setData] = useState<UserSettings | null>(null);
 
 	useEffect(() => {
-		if (session)
+		if (session) {
 			setData({
 				...session.user
 			});
+		}
 	}, [session]);
 
-	async function saveSettings(data: UserSettings | null) {
+	const saveSettings = async (data: UserSettings | null) => {
 		setSaving(true);
 		const response = await fetch("/api/save-settings", {
 			method: HttpMethod.POST,
@@ -30,11 +31,12 @@ export default function AppSettings() {
 				...data
 			})
 		});
+
 		if (response.ok) {
 			setSaving(false);
 			toast.success(`Changes Saved`);
 		}
-	}
+	};
 
 	return (
 		<>
@@ -145,4 +147,6 @@ export default function AppSettings() {
 			</Layout>
 		</>
 	);
-}
+};
+
+export default AppSettings;

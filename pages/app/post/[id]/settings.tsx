@@ -22,7 +22,7 @@ interface SettingsData {
 	imageBlurhash: string;
 }
 
-export default function PostSettings() {
+const PostSettings = () => {
 	const router = useRouter();
 
 	// TODO: Undefined check redirects to error
@@ -49,16 +49,17 @@ export default function PostSettings() {
 	});
 
 	useEffect(() => {
-		if (settings)
+		if (settings) {
 			setData({
 				slug: settings.slug,
 				image: settings.image ?? "",
 				imageBlurhash: settings.imageBlurhash ?? "",
 				id: settings.id
 			});
+		}
 	}, [settings]);
 
-	async function savePostSettings(data: SettingsData) {
+	const savePostSettings = async (data: SettingsData) => {
 		setSaving(true);
 
 		try {
@@ -77,16 +78,19 @@ export default function PostSettings() {
 				})
 			});
 
-			if (response.ok) toast.success(`Changes Saved`);
+			if (response.ok) {
+				toast.success(`Changes Saved`);
+			}
 		} catch (error) {
 			console.error(error);
 		} finally {
 			setSaving(false);
 		}
-	}
+	};
 
-	async function deletePost(postId: string) {
+	const deletePost = async (postId: string) => {
 		setDeletingPost(true);
+
 		try {
 			const response = await fetch(`/api/post?postId=${postId}`, {
 				method: HttpMethod.DELETE
@@ -100,14 +104,15 @@ export default function PostSettings() {
 		} finally {
 			setDeletingPost(false);
 		}
-	}
+	};
 
-	if (isValidating)
+	if (isValidating) {
 		return (
 			<Layout>
 				<Loader />
 			</Layout>
 		);
+	}
 
 	return (
 		<>
@@ -254,4 +259,6 @@ export default function PostSettings() {
 			</Layout>
 		</>
 	);
-}
+};
+
+export default PostSettings;

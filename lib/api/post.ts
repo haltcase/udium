@@ -4,7 +4,11 @@ import type { Session } from "next-auth";
 
 import prisma from "@/lib/prisma";
 import { revalidate } from "@/lib/revalidate";
-import { getBlurDataURL, placeholderBlurhash } from "@/lib/util";
+import {
+	getBlurDataURL,
+	isValidParameter,
+	placeholderBlurhash
+} from "@/lib/util";
 import type { WithSitePost } from "@/types";
 
 interface AllPosts {
@@ -22,18 +26,18 @@ interface AllPosts {
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function getPost(
+export const getPost = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
 	session: Session
-): Promise<void | NextApiResponse<AllPosts | (WithSitePost | null)>> {
+): Promise<void | NextApiResponse<AllPosts | (WithSitePost | null)>> => {
 	const { postId, siteId, published } = req.query;
 
 	if (
-		Array.isArray(postId) ||
-		Array.isArray(siteId) ||
-		Array.isArray(published) ||
-		!session.user.id
+		!isValidParameter(postId) ||
+		!isValidParameter(siteId) ||
+		!isValidParameter(published) ||
+		session.user.id == null
 	)
 		return res.status(400).end("Bad request. Query parameters are not valid.");
 
@@ -87,7 +91,7 @@ export async function getPost(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Create Post
@@ -99,16 +103,16 @@ export async function getPost(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function createPost(
+export const createPost = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
 	session: Session
 ): Promise<void | NextApiResponse<{
 	postId: string;
-}>> {
+}>> => {
 	const { siteId } = req.query;
 
-	if (!siteId || typeof siteId !== "string" || !session?.user?.id) {
+	if (!siteId || typeof siteId !== "string" || session?.user?.id == null) {
 		return res
 			.status(400)
 			.json({ error: "Missing or misconfigured site ID or session ID" });
@@ -144,7 +148,7 @@ export async function createPost(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Delete Post
@@ -155,11 +159,11 @@ export async function createPost(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function deletePost(
+export const deletePost = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
 	session: Session
-): Promise<void | NextApiResponse> {
+): Promise<void | NextApiResponse> => {
 	const { postId } = req.query;
 
 	if (!postId || typeof postId !== "string" || !session?.user?.id) {
@@ -214,7 +218,7 @@ export async function deletePost(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Update Post
@@ -233,11 +237,11 @@ export async function deletePost(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function updatePost(
+export const updatePost = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
 	session: Session
-): Promise<void | NextApiResponse<Post>> {
+): Promise<void | NextApiResponse<Post>> => {
 	const {
 		id,
 		title,
@@ -306,4 +310,4 @@ export async function updatePost(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};

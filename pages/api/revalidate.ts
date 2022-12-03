@@ -1,9 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse
-) {
+const revalidate = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { urlPath } = req.body;
 	res.setHeader("Access-Control-Allow-Origin", "https://app.udium.bolingen.me");
 	res.setHeader("Access-Control-Allow-Methods", "POST");
@@ -19,4 +16,6 @@ export default async function handler(
 			message: `Failed to revalidate "${urlPath}"`
 		});
 	}
-}
+};
+
+export default revalidate;

@@ -14,7 +14,7 @@ import Modal from "@/components/Modal";
 import { fetcher } from "@/lib/fetcher";
 import { HttpMethod } from "@/types";
 
-export default function AppIndex() {
+const AppIndex = () => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [creatingSite, setCreatingSite] = useState<boolean>(false);
 	const [subdomain, setSubdomain] = useState<string>("");
@@ -26,19 +26,22 @@ export default function AppIndex() {
 	const siteDescriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
 	useEffect(() => {
-		async function checkSubDomain() {
+		const checkSubDomain = async () => {
 			if (debouncedSubdomain.length > 0) {
 				const response = await fetch(
 					`/api/domain/check?domain=${debouncedSubdomain}&subdomain=1`
 				);
+
 				const available = await response.json();
+
 				if (available) {
 					setError(null);
 				} else {
 					setError(`${debouncedSubdomain}.udium.bolingen.me`);
 				}
 			}
-		}
+		};
+
 		checkSubDomain();
 	}, [debouncedSubdomain]);
 
@@ -52,7 +55,7 @@ export default function AppIndex() {
 		fetcher
 	);
 
-	async function createSite(_: FormEvent<HTMLFormElement>) {
+	const createSite = async (_: FormEvent<HTMLFormElement>) => {
 		const res = await fetch("/api/site", {
 			method: HttpMethod.POST,
 			headers: {
@@ -65,11 +68,12 @@ export default function AppIndex() {
 				description: siteDescriptionRef.current?.value
 			})
 		});
+
 		if (res.ok) {
 			const data = await res.json();
 			router.push(`/site/${data.siteId}`);
 		}
-	}
+	};
 
 	return (
 		<Layout>
@@ -238,4 +242,6 @@ export default function AppIndex() {
 			</div>
 		</Layout>
 	);
-}
+};
+
+export default AppIndex;

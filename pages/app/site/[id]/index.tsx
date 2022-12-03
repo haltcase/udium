@@ -15,7 +15,7 @@ interface SitePostData {
 	site: Site | null;
 }
 
-export default function SiteIndex() {
+const SiteIndex = () => {
 	const [creatingPost, setCreatingPost] = useState(false);
 
 	const router = useRouter();
@@ -29,7 +29,7 @@ export default function SiteIndex() {
 		}
 	);
 
-	async function createPost(siteId: string) {
+	const createPost = async (siteId: string) => {
 		try {
 			const res = await fetch(`/api/post?siteId=${siteId}`, {
 				method: HttpMethod.POST,
@@ -45,7 +45,7 @@ export default function SiteIndex() {
 		} catch (error) {
 			console.error(error);
 		}
-	}
+	};
 
 	return (
 		<Layout>
@@ -148,4 +148,6 @@ export default function SiteIndex() {
 			</div>
 		</Layout>
 	);
-}
+};
+
+export default SiteIndex;

@@ -50,7 +50,7 @@ Ordered lists look like:
 
             `;
 
-export default function Post() {
+const Post = () => {
 	const router = useRouter();
 
 	// TODO: Undefined check redirects to error
@@ -86,12 +86,13 @@ export default function Post() {
 	});
 
 	useEffect(() => {
-		if (post)
+		if (post) {
 			setData({
 				title: post.title ?? "",
 				description: post.description ?? "",
 				content: post.content ?? ""
 			});
+		}
 	}, [post]);
 
 	const [debouncedData] = useDebounce(data, 1000);
@@ -116,6 +117,7 @@ export default function Post() {
 
 				if (response.ok) {
 					const responseData = await response.json();
+
 					setSavedState(
 						`Last save ${Intl.DateTimeFormat("en", { month: "short" }).format(
 							new Date(responseData.updatedAt)
@@ -138,34 +140,40 @@ export default function Post() {
 	);
 
 	useEffect(() => {
-		if (debouncedData.title) saveChanges(debouncedData);
+		if (debouncedData.title) {
+			saveChanges(debouncedData);
+		}
 	}, [debouncedData, saveChanges]);
 
 	const [publishing, setPublishing] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 
 	useEffect(() => {
-		if (data.title && data.description && data.content && !publishing)
+		if (data.title && data.description && data.content && !publishing) {
 			setDisabled(false);
-		else setDisabled(true);
+		} else {
+			setDisabled(true);
+		}
 	}, [publishing, data]);
 
 	useEffect(() => {
-		function clickedSave(e: KeyboardEvent) {
+		const clickedSave = (e: KeyboardEvent) => {
 			const charCode = String.fromCharCode(e.which).toLowerCase();
 
 			if ((e.ctrlKey || e.metaKey) && charCode === "s") {
 				e.preventDefault();
 				saveChanges(data);
 			}
-		}
+		};
 
 		window.addEventListener("keydown", clickedSave);
 
-		return () => window.removeEventListener("keydown", clickedSave);
+		return () => {
+			window.removeEventListener("keydown", clickedSave);
+		};
 	}, [data, saveChanges]);
 
-	async function publish() {
+	const publish = async () => {
 		setPublishing(true);
 
 		try {
@@ -197,15 +205,15 @@ export default function Post() {
 		} finally {
 			setPublishing(false);
 		}
-	}
+	};
 
-	if (isValidating)
+	if (isValidating) {
 		return (
 			<Layout>
 				<Loader />
 			</Layout>
 		);
-
+	}
 	return (
 		<>
 			<Layout siteId={post?.site?.id}>
@@ -285,4 +293,6 @@ export default function Post() {
 			</Layout>
 		</>
 	);
-}
+};
+
+export default Post;

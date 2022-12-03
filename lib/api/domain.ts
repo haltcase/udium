@@ -10,10 +10,10 @@ import { isValidParameter } from "@/lib/util";
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function createDomain(
+export const createDomain = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-): Promise<void | NextApiResponse> {
+): Promise<void | NextApiResponse> => {
 	const { domain, siteId } = req.query;
 
 	if (!isValidParameter(domain) || !isValidParameter(siteId)) {
@@ -72,7 +72,7 @@ export async function createDomain(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Remove a domain from the Render service.
@@ -80,10 +80,10 @@ export async function createDomain(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function deleteDomain(
+export const deleteDomain = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-): Promise<void | NextApiResponse> {
+): Promise<void | NextApiResponse> => {
 	const { domain, siteId } = req.query;
 
 	if (!isValidParameter(domain) || !isValidParameter(siteId)) {
@@ -126,4 +126,4 @@ export async function deleteDomain(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};

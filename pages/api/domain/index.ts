@@ -6,11 +6,9 @@ import { HttpMethod } from "@/types";
 
 import { authOptions } from "../auth/[...nextauth]";
 
-export default async function domain(
-	req: NextApiRequest,
-	res: NextApiResponse
-) {
+const domain = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await unstable_getServerSession(req, res, authOptions);
+
 	if (!session) {
 		return res.status(401).end();
 	}
@@ -20,8 +18,11 @@ export default async function domain(
 			return createDomain(req, res);
 		case HttpMethod.DELETE:
 			return deleteDomain(req, res);
-		default:
+		default: {
 			res.setHeader("Allow", [HttpMethod.POST, HttpMethod.DELETE]);
 			return res.status(405).end(`Method ${req.method} Not Allowed`);
+		}
 	}
-}
+};
+
+export default domain;

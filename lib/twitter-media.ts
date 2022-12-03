@@ -17,7 +17,9 @@ export async function getTwitterMedia(id: string): Promise<Video | undefined> {
 			}
 		);
 
-		if (!response.ok) throw new Error("Failed to fetch Twitter media");
+		if (!response.ok) {
+			throw new Error("Failed to fetch Twitter media");
+		}
 
 		const data = (await response.json()) as MediaTweet;
 

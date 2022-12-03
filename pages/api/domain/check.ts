@@ -7,7 +7,7 @@ import { HttpMethod } from "@/types";
 
 const subdomainRegex = /[^a-zA-Z0-9/-]+/g;
 
-export default async function post(req: NextApiRequest, res: NextApiResponse) {
+const checkDomain = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method !== HttpMethod.GET) {
 		res.setHeader("Allow", [HttpMethod.GET]);
 		return res.status(405).end(`Method ${req.method} Not Allowed`);
@@ -50,4 +50,6 @@ export default async function post(req: NextApiRequest, res: NextApiResponse) {
 		console.error(error);
 		return res.status(500).json(JSON.stringify(error));
 	}
-}
+};
+
+export default checkDomain;

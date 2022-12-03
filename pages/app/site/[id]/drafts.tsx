@@ -15,7 +15,7 @@ interface SitePostData {
 	site: Site | null;
 }
 
-export default function SiteDrafts() {
+const SiteDrafts = () => {
 	const [creatingPost, setCreatingPost] = useState(false);
 
 	const router = useRouter();
@@ -29,7 +29,7 @@ export default function SiteDrafts() {
 		}
 	);
 
-	async function createPost(siteId: string) {
+	const createPost = async (siteId: string) => {
 		try {
 			const res = await fetch(`/api/post?siteId=${siteId}`, {
 				method: HttpMethod.POST,
@@ -45,7 +45,7 @@ export default function SiteDrafts() {
 		} catch (error) {
 			console.error(error);
 		}
-	}
+	};
 
 	return (
 		<Layout>
@@ -151,4 +151,6 @@ export default function SiteDrafts() {
 			</div>
 		</Layout>
 	);
-}
+};
+
+export default SiteDrafts;

@@ -8,7 +8,7 @@ import type { WithChildren } from "@/types";
 
 type NodesToChange = Literal<string>;
 
-export function replaceLinks(options: { href: string } & WithChildren) {
+export const replaceLinks = (options: { href: string } & WithChildren) => {
 	// this is technically not a remark plugin but it
 	// replaces internal links with <Link /> component
 	// and external links with <a target="_blank" />
@@ -21,7 +21,7 @@ export function replaceLinks(options: { href: string } & WithChildren) {
 			{options.children} ↗
 		</a>
 	);
-}
+};
 
 export const replaceTweets =
 	<T extends Node>() =>

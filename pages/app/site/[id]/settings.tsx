@@ -25,7 +25,7 @@ type SettingsData = Pick<
 	| "imageBlurhash"
 >;
 
-export default function SiteSettings() {
+const SiteSettings = () => {
 	const router = useRouter();
 	const { id } = router.query;
 	const siteId = id;
@@ -57,10 +57,12 @@ export default function SiteSettings() {
 	});
 
 	useEffect(() => {
-		if (settings) setData(settings);
+		if (settings) {
+			setData(settings);
+		}
 	}, [settings]);
 
-	async function saveSiteSettings(data: SettingsData) {
+	const saveSiteSettings = async (data: SettingsData) => {
 		setSaving(true);
 
 		try {
@@ -87,7 +89,7 @@ export default function SiteSettings() {
 		} finally {
 			setSaving(false);
 		}
-	}
+	};
 
 	async function deleteSite(siteId: string) {
 		setDeletingSite(true);
@@ -97,7 +99,9 @@ export default function SiteSettings() {
 				method: HttpMethod.DELETE
 			});
 
-			if (response.ok) router.push("/");
+			if (response.ok) {
+				router.push("/");
+			}
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -108,7 +112,7 @@ export default function SiteSettings() {
 	const [subdomainError, setSubdomainError] = useState<string | null>(null);
 
 	useEffect(() => {
-		async function checkSubdomain() {
+		const checkSubdomain = async () => {
 			try {
 				const response = await fetch(
 					`/api/domain/check?domain=${debouncedSubdomain}&subdomain=1`
@@ -122,7 +126,7 @@ export default function SiteSettings() {
 			} catch (error) {
 				console.error(error);
 			}
-		}
+		};
 
 		if (
 			debouncedSubdomain !== settings?.subdomain &&
@@ -132,7 +136,7 @@ export default function SiteSettings() {
 			checkSubdomain();
 	}, [debouncedSubdomain, settings?.subdomain]);
 
-	async function handleCustomDomain() {
+	const handleCustomDomain = async () => {
 		const customDomain = data.customDomain;
 
 		setAdding(true);
@@ -145,11 +149,13 @@ export default function SiteSettings() {
 				}
 			);
 
-			if (!response.ok)
+			if (!response.ok) {
 				throw {
 					code: response.status,
 					domain: customDomain
 				};
+			}
+
 			setError(null);
 			mutate(`/api/site?siteId=${siteId}`);
 		} catch (error) {
@@ -157,7 +163,7 @@ export default function SiteSettings() {
 		} finally {
 			setAdding(false);
 		}
-	}
+	};
 
 	return (
 		<Layout>
@@ -442,4 +448,6 @@ export default function SiteSettings() {
 			</footer>
 		</Layout>
 	);
-}
+};
+
+export default SiteSettings;

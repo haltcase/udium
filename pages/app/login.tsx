@@ -12,7 +12,7 @@ const logo = "/favicon.ico";
 const description =
 	"Platforms Starter Kit is a comprehensive template for building multi-tenant applications with custom domains.";
 
-export default function Login() {
+const Login = () => {
 	const [loading, setLoading] = useState(false);
 
 	// Get error message added by next/auth in URL.
@@ -21,7 +21,9 @@ export default function Login() {
 
 	useEffect(() => {
 		const errorMessage = Array.isArray(error) ? error.pop() : error;
-		errorMessage && toast.error(errorMessage);
+		if (errorMessage) {
+			toast.error(errorMessage);
+		}
 	}, [error]);
 
 	return (
@@ -103,4 +105,6 @@ export default function Login() {
 			<Toaster />
 		</div>
 	);
-}
+};
+
+export default Login;

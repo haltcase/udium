@@ -45,11 +45,15 @@ export default function Post({
 	stringifiedData
 }: PostProps) {
 	const router = useRouter();
-	if (router.isFallback) return <Loader />;
+
+	if (router.isFallback) {
+		return <Loader />;
+	}
 
 	const data = JSON.parse(stringifiedData) as _SiteSlugData & {
 		mdxSource: MDXRemoteSerializeResult<Record<string, unknown>>;
 	};
+
 	const adjacentPosts = JSON.parse(
 		stringifiedAdjacentPosts
 	) as Array<AdjacentPost>;

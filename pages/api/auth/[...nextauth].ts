@@ -4,8 +4,9 @@ import GitHubProvider from "next-auth/providers/github";
 
 import prisma from "@/lib/prisma";
 
-if (!process.env.GITHUB_ID || !process.env.GITHUB_SECRET)
+if (!process.env.GITHUB_ID || !process.env.GITHUB_SECRET) {
 	throw new Error("Failed to initialize Github authentication");
+}
 
 export const authOptions: NextAuthOptions = {
 	providers: [

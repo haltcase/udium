@@ -6,9 +6,12 @@ import { HttpMethod } from "@/types";
 
 import { authOptions } from "./auth/[...nextauth]";
 
-export default async function site(req: NextApiRequest, res: NextApiResponse) {
+const site = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await unstable_getServerSession(req, res, authOptions);
-	if (!session) return res.status(401).end();
+
+	if (!session) {
+		return res.status(401).end();
+	}
 
 	switch (req.method) {
 		case HttpMethod.GET:
@@ -19,13 +22,17 @@ export default async function site(req: NextApiRequest, res: NextApiResponse) {
 			return deleteSite(req, res);
 		case HttpMethod.PUT:
 			return updateSite(req, res);
-		default:
+		default: {
 			res.setHeader("Allow", [
 				HttpMethod.GET,
 				HttpMethod.POST,
 				HttpMethod.DELETE,
 				HttpMethod.PUT
 			]);
+
 			return res.status(405).end(`Method ${req.method} Not Allowed`);
+		}
 	}
-}
+};
+
+export default site;

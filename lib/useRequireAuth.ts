@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-function useRequireAuth() {
+const useRequireAuth = () => {
 	const { data: session } = useSession();
 
 	const router = useRouter();
@@ -16,6 +16,6 @@ function useRequireAuth() {
 	}, [session, router]);
 
 	return session;
-}
+};
 
 export default useRequireAuth;

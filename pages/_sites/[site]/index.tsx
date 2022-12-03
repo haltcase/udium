@@ -20,21 +20,24 @@ interface IndexProps {
 	stringifiedData: string;
 }
 
-export default function Index({ stringifiedData }: IndexProps) {
+const Index = ({ stringifiedData }: IndexProps) => {
 	const router = useRouter();
-	if (router.isFallback) return <Loader />;
+
+	if (router.isFallback) {
+		return <Loader />;
+	}
 
 	const data = JSON.parse(stringifiedData) as _SiteData;
 
 	const meta = {
-		title: data.name,
-		description: data.description,
+		title: data.name ?? "",
+		description: data.description ?? "",
 		logo: "/logo.png",
-		ogImage: data.image,
+		ogImage: data.image ?? "",
 		ogUrl: data.customDomain
 			? data.customDomain
 			: `https://${data.subdomain}.udium.bolingen.me`
-	} as Meta;
+	} satisfies Meta;
 
 	return (
 		<Layout meta={meta} subdomain={data.subdomain ?? undefined}>
@@ -122,7 +125,7 @@ export default function Index({ stringifiedData }: IndexProps) {
 			)}
 		</Layout>
 	);
-}
+};
 
 export const getStaticPaths: GetStaticPaths<PathProps> = async () => {
 	const [subdomains, customDomains] = await Promise.all([
@@ -167,22 +170,15 @@ export const getStaticPaths: GetStaticPaths<PathProps> = async () => {
 export const getStaticProps: GetStaticProps<IndexProps, PathProps> = async ({
 	params
 }) => {
-	if (!params) throw new Error("No path parameters found");
+	if (!params) {
+		throw new Error("No path parameters found");
+	}
 
 	const { site } = params;
 
-	let filter: {
-		subdomain?: string;
-		customDomain?: string;
-	} = {
-		subdomain: site
-	};
-
-	if (site.includes(".")) {
-		filter = {
-			customDomain: site
-		};
-	}
+	const filter = site.includes(".")
+		? { customDomain: site }
+		: { subDomain: site };
 
 	const data = (await prisma.site.findUnique({
 		where: filter,
@@ -201,7 +197,9 @@ export const getStaticProps: GetStaticProps<IndexProps, PathProps> = async ({
 		}
 	})) as _SiteData;
 
-	if (!data) return { notFound: true, revalidate: 10 };
+	if (!data) {
+		return { notFound: true, revalidate: 10 };
+	}
 
 	return {
 		props: {

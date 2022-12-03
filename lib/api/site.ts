@@ -20,11 +20,11 @@ import { placeholderBlurhash } from "../util";
  * @param res - Next.js API Response
  * @param session - NextAuth.js session
  */
-export async function getSite(
+export const getSite = async (
 	req: NextApiRequest,
 	res: NextApiResponse,
 	session: Session
-): Promise<void | NextApiResponse<Array<Site> | (Site | null)>> {
+): Promise<void | NextApiResponse<Array<Site> | (Site | null)>> => {
 	const { siteId } = req.query;
 
 	if (Array.isArray(siteId))
@@ -62,7 +62,7 @@ export async function getSite(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Create Site
@@ -79,12 +79,12 @@ export async function getSite(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function createSite(
+export const createSite = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void | NextApiResponse<{
 	siteId: string;
-}>> {
+}>> => {
 	const { name, subdomain, description, userId } = req.body;
 
 	const sub = subdomain.replace(/[^a-zA-Z0-9/-]+/g, "");
@@ -113,7 +113,7 @@ export async function createSite(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Delete Site
@@ -124,12 +124,16 @@ export async function createSite(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function deleteSite(
+export const deleteSite = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-): Promise<void | NextApiResponse> {
+): Promise<void | NextApiResponse> => {
 	const session = await unstable_getServerSession(req, res, authOptions);
-	if (!session?.user.id) return res.status(401).end("Unauthorized");
+
+	if (session?.user.id == null) {
+		return res.status(401).end("Unauthorized");
+	}
+
 	const { siteId } = req.query;
 
 	if (!siteId || typeof siteId !== "string") {
@@ -144,12 +148,16 @@ export async function deleteSite(
 			}
 		}
 	});
-	if (!site) return res.status(404).end("Site not found");
 
-	if (Array.isArray(siteId))
+	if (site == null) {
+		return res.status(404).end("Site not found");
+	}
+
+	if (Array.isArray(siteId)) {
 		return res
 			.status(400)
 			.end("Bad request. siteId parameter cannot be an array.");
+	}
 
 	try {
 		await prisma.$transaction([
@@ -172,7 +180,7 @@ export async function deleteSite(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};
 
 /**
  * Update site
@@ -189,12 +197,15 @@ export async function deleteSite(
  * @param req - Next.js API Request
  * @param res - Next.js API Response
  */
-export async function updateSite(
+export const updateSite = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-): Promise<void | NextApiResponse<Site>> {
+): Promise<void | NextApiResponse<Site>> => {
 	const session = await unstable_getServerSession(req, res, authOptions);
-	if (!session?.user.id) return res.status(401).end("Unauthorized");
+
+	if (session?.user.id == null) {
+		return res.status(401).end("Unauthorized");
+	}
 
 	const { id, currentSubdomain, name, description, image, imageBlurhash } =
 		req.body;
@@ -211,7 +222,10 @@ export async function updateSite(
 			}
 		}
 	});
-	if (!site) return res.status(404).end("Site not found");
+
+	if (site == null) {
+		return res.status(404).end("Site not found");
+	}
 
 	const sub = req.body.subdomain.replace(/[^a-zA-Z0-9/-]+/g, "");
 	const subdomain = sub.length > 0 ? sub : currentSubdomain;
@@ -235,4 +249,4 @@ export async function updateSite(
 		console.error(error);
 		return res.status(500).end(error);
 	}
-}
+};

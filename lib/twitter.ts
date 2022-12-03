@@ -24,7 +24,7 @@ const getExternalUrls = (tweet: TweetData) => {
 		[I in string]: string;
 	} = {};
 
-	if (externalURLs)
+	if (externalURLs) {
 		externalURLs.map(url => {
 			mappings[url.url] =
 				!url.display_url.startsWith("pic.twitter.com") &&
@@ -32,6 +32,7 @@ const getExternalUrls = (tweet: TweetData) => {
 					? url.expanded_url
 					: "";
 		});
+	}
 
 	let processedText = tweet?.text;
 	Object.entries(mappings).map(([key, value]) => {
@@ -61,10 +62,12 @@ export const getTweets = async (id: string) => {
 				const fullReferencedTweet = tweet.includes.tweets?.find(
 					tweet => tweet.id === referencedTweet.id
 				);
-				if (!fullReferencedTweet)
+
+				if (!fullReferencedTweet) {
 					throw new Error(
 						`Failed to find full tweet from referenced tweet ID: ${referencedTweet.id}`
 					);
+				}
 
 				return {
 					type: referencedTweet.type,
@@ -72,7 +75,11 @@ export const getTweets = async (id: string) => {
 				};
 			}) || [];
 
-		if (tweet.data) tweet.data.text = getExternalUrls(tweet?.data); // removing/replacing t.co links for main tweet
+		if (tweet.data) {
+			// remove/replace t.co links for main tweet
+			tweet.data.text = getExternalUrls(tweet?.data);
+		}
+
 		tweet?.includes?.tweets?.map(twt => {
 			// removing/replacing t.co links for referenced tweets
 			twt.text = getExternalUrls(twt);
