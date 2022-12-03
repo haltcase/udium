@@ -98,8 +98,6 @@ export async function deleteDomain(
       customDomainIdOrName: domain,
     });
   } catch (error) {
-    console.error(error);
-
     if (
       typeof error === "object" &&
       error != null &&
@@ -107,7 +105,9 @@ export async function deleteDomain(
       error.status === 404
     ) {
       // the domain is already "not found"
-      return res.status(200).end();
+    } else {
+      console.error(error);
+      return res.status(500).end();
     }
   }
 
