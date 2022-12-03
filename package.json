@@ -1,5 +1,6 @@
 {
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"build": "pnpm prisma generate && next build",
 		"dev": "pnpm prisma generate && next dev",

@@ -1,7 +1,7 @@
 /**
  * @type {import('next').NextConfig}
  */
-module.exports = {
+export default {
 	images: {
 		domains: [
 			"res.cloudinary.com",
@@ -10,6 +10,5 @@ module.exports = {
 			"avatars.githubusercontent.com"
 		]
 	},
-	reactStrictMode: true,
-	swcMinify: false // Required to fix: https://nextjs.org/docs/messages/failed-loading-swc
+	reactStrictMode: true
 };
