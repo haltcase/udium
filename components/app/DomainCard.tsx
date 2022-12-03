@@ -27,6 +27,7 @@ export default function DomainCard({ data }: DomainCardProps) {
     fetcher,
     { revalidateOnMount: true, refreshInterval: 20_000 }
   );
+
   const [recordType, setRecordType] = useState("CNAME");
   const [removing, setRemoving] = useState(false);
   const subdomain = // if domain is a subdomain

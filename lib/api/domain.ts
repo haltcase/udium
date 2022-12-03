@@ -116,6 +116,7 @@ export async function deleteDomain(
       error.status === 404
     ) {
       // the domain is already "not found"
+      console.log("deleteCustomDomain: domain already doesn't exist");
       return res.status(200).end();
     }
 
