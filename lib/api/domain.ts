@@ -97,7 +97,21 @@ export async function deleteDomain(
       serviceId,
       customDomainIdOrName: domain,
     });
+  } catch (error) {
+    console.error(error);
 
+    if (
+      typeof error === "object" &&
+      error != null &&
+      "status" in error &&
+      error.status === 404
+    ) {
+      // the domain is already "not found"
+      return res.status(200).end();
+    }
+  }
+
+  try {
     await prisma.site.update({
       where: {
         id: siteId,
@@ -109,17 +123,6 @@ export async function deleteDomain(
 
     return res.status(200).end();
   } catch (error) {
-    if (
-      typeof error === "object" &&
-      error != null &&
-      "status" in error &&
-      error.status === 404
-    ) {
-      // the domain is already "not found"
-      console.log("deleteCustomDomain: domain already doesn't exist");
-      return res.status(200).end();
-    }
-
     console.error(error);
     return res.status(500).end(error);
   }
