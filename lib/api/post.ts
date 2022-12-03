@@ -8,8 +8,8 @@ import { getBlurDataURL, placeholderBlurhash } from "@/lib/util";
 import type { WithSitePost } from "@/types";
 
 interface AllPosts {
-  posts: Array<Post>;
-  site: Site | null;
+	posts: Array<Post>;
+	site: Site | null;
 }
 
 /**
@@ -23,70 +23,70 @@ interface AllPosts {
  * @param res - Next.js API Response
  */
 export async function getPost(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  session: Session
+	req: NextApiRequest,
+	res: NextApiResponse,
+	session: Session
 ): Promise<void | NextApiResponse<AllPosts | (WithSitePost | null)>> {
-  const { postId, siteId, published } = req.query;
+	const { postId, siteId, published } = req.query;
 
-  if (
-    Array.isArray(postId) ||
-    Array.isArray(siteId) ||
-    Array.isArray(published) ||
-    !session.user.id
-  )
-    return res.status(400).end("Bad request. Query parameters are not valid.");
+	if (
+		Array.isArray(postId) ||
+		Array.isArray(siteId) ||
+		Array.isArray(published) ||
+		!session.user.id
+	)
+		return res.status(400).end("Bad request. Query parameters are not valid.");
 
-  try {
-    if (postId) {
-      const post = await prisma.post.findFirst({
-        where: {
-          id: postId,
-          site: {
-            user: {
-              id: session.user.id,
-            },
-          },
-        },
-        include: {
-          site: true,
-        },
-      });
+	try {
+		if (postId) {
+			const post = await prisma.post.findFirst({
+				where: {
+					id: postId,
+					site: {
+						user: {
+							id: session.user.id
+						}
+					}
+				},
+				include: {
+					site: true
+				}
+			});
 
-      return res.status(200).json(post);
-    }
+			return res.status(200).json(post);
+		}
 
-    const site = await prisma.site.findFirst({
-      where: {
-        id: siteId,
-        user: {
-          id: session.user.id,
-        },
-      },
-    });
+		const site = await prisma.site.findFirst({
+			where: {
+				id: siteId,
+				user: {
+					id: session.user.id
+				}
+			}
+		});
 
-    const posts = !site
-      ? []
-      : await prisma.post.findMany({
-          where: {
-            site: {
-              id: siteId,
-            },
-            published: JSON.parse(published || "true"),
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        });
+		const posts = !site
+			? []
+			: await prisma.post.findMany({
+					where: {
+						site: {
+							id: siteId
+						},
+						published: JSON.parse(published || "true")
+					},
+					orderBy: {
+						createdAt: "desc"
+					}
+			  });
 
-    return res.status(200).json({
-      posts,
-      site,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).end(error);
-  }
+		return res.status(200).json({
+			posts,
+			site
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).end(error);
+	}
 }
 
 /**
@@ -100,50 +100,50 @@ export async function getPost(
  * @param res - Next.js API Response
  */
 export async function createPost(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  session: Session
+	req: NextApiRequest,
+	res: NextApiResponse,
+	session: Session
 ): Promise<void | NextApiResponse<{
-  postId: string;
+	postId: string;
 }>> {
-  const { siteId } = req.query;
+	const { siteId } = req.query;
 
-  if (!siteId || typeof siteId !== "string" || !session?.user?.id) {
-    return res
-      .status(400)
-      .json({ error: "Missing or misconfigured site ID or session ID" });
-  }
+	if (!siteId || typeof siteId !== "string" || !session?.user?.id) {
+		return res
+			.status(400)
+			.json({ error: "Missing or misconfigured site ID or session ID" });
+	}
 
-  const site = await prisma.site.findFirst({
-    where: {
-      id: siteId,
-      user: {
-        id: session.user.id,
-      },
-    },
-  });
-  if (!site) return res.status(404).end("Site not found");
+	const site = await prisma.site.findFirst({
+		where: {
+			id: siteId,
+			user: {
+				id: session.user.id
+			}
+		}
+	});
+	if (!site) return res.status(404).end("Site not found");
 
-  try {
-    const response = await prisma.post.create({
-      data: {
-        image: `/placeholder.png`,
-        imageBlurhash: placeholderBlurhash,
-        site: {
-          connect: {
-            id: siteId,
-          },
-        },
-      },
-    });
+	try {
+		const response = await prisma.post.create({
+			data: {
+				image: `/placeholder.png`,
+				imageBlurhash: placeholderBlurhash,
+				site: {
+					connect: {
+						id: siteId
+					}
+				}
+			}
+		});
 
-    return res.status(201).json({
-      postId: response.id,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).end(error);
-  }
+		return res.status(201).json({
+			postId: response.id
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).end(error);
+	}
 }
 
 /**
@@ -156,64 +156,64 @@ export async function createPost(
  * @param res - Next.js API Response
  */
 export async function deletePost(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  session: Session
+	req: NextApiRequest,
+	res: NextApiResponse,
+	session: Session
 ): Promise<void | NextApiResponse> {
-  const { postId } = req.query;
+	const { postId } = req.query;
 
-  if (!postId || typeof postId !== "string" || !session?.user?.id) {
-    return res
-      .status(400)
-      .json({ error: "Missing or misconfigured site ID or session ID" });
-  }
+	if (!postId || typeof postId !== "string" || !session?.user?.id) {
+		return res
+			.status(400)
+			.json({ error: "Missing or misconfigured site ID or session ID" });
+	}
 
-  const site = await prisma.site.findFirst({
-    where: {
-      posts: {
-        some: {
-          id: postId,
-        },
-      },
-      user: {
-        id: session.user.id,
-      },
-    },
-  });
-  if (!site) return res.status(404).end("Site not found");
+	const site = await prisma.site.findFirst({
+		where: {
+			posts: {
+				some: {
+					id: postId
+				}
+			},
+			user: {
+				id: session.user.id
+			}
+		}
+	});
+	if (!site) return res.status(404).end("Site not found");
 
-  try {
-    const response = await prisma.post.delete({
-      where: {
-        id: postId,
-      },
-      include: {
-        site: {
-          select: { subdomain: true, customDomain: true },
-        },
-      },
-    });
-    if (response?.site?.subdomain) {
-      // revalidate for subdomain
-      await revalidate(
-        `https://${response.site?.subdomain}.udium.bolingen.me`, // hostname to be revalidated
-        response.site.subdomain, // siteId
-        response.slug // slugname for the post
-      );
-    }
-    if (response?.site?.customDomain)
-      // revalidate for custom domain
-      await revalidate(
-        `https://${response.site.customDomain}`, // hostname to be revalidated
-        response.site.customDomain, // siteId
-        response.slug // slugname for the post
-      );
+	try {
+		const response = await prisma.post.delete({
+			where: {
+				id: postId
+			},
+			include: {
+				site: {
+					select: { subdomain: true, customDomain: true }
+				}
+			}
+		});
+		if (response?.site?.subdomain) {
+			// revalidate for subdomain
+			await revalidate(
+				`https://${response.site?.subdomain}.udium.bolingen.me`, // hostname to be revalidated
+				response.site.subdomain, // siteId
+				response.slug // slugname for the post
+			);
+		}
+		if (response?.site?.customDomain)
+			// revalidate for custom domain
+			await revalidate(
+				`https://${response.site.customDomain}`, // hostname to be revalidated
+				response.site.customDomain, // siteId
+				response.slug // slugname for the post
+			);
 
-    return res.status(200).end();
-  } catch (error) {
-    console.error(error);
-    return res.status(500).end(error);
-  }
+		return res.status(200).end();
+	} catch (error) {
+		console.error(error);
+		return res.status(500).end(error);
+	}
 }
 
 /**
@@ -234,76 +234,76 @@ export async function deletePost(
  * @param res - Next.js API Response
  */
 export async function updatePost(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  session: Session
+	req: NextApiRequest,
+	res: NextApiResponse,
+	session: Session
 ): Promise<void | NextApiResponse<Post>> {
-  const {
-    id,
-    title,
-    description,
-    content,
-    slug,
-    image,
-    published,
-    subdomain,
-    customDomain,
-  } = req.body;
+	const {
+		id,
+		title,
+		description,
+		content,
+		slug,
+		image,
+		published,
+		subdomain,
+		customDomain
+	} = req.body;
 
-  if (!id || typeof id !== "string" || !session?.user?.id) {
-    return res
-      .status(400)
-      .json({ error: "Missing or misconfigured site ID or session ID" });
-  }
+	if (!id || typeof id !== "string" || !session?.user?.id) {
+		return res
+			.status(400)
+			.json({ error: "Missing or misconfigured site ID or session ID" });
+	}
 
-  const site = await prisma.site.findFirst({
-    where: {
-      posts: {
-        some: {
-          id,
-        },
-      },
-      user: {
-        id: session.user.id,
-      },
-    },
-  });
-  if (!site) return res.status(404).end("Site not found");
+	const site = await prisma.site.findFirst({
+		where: {
+			posts: {
+				some: {
+					id
+				}
+			},
+			user: {
+				id: session.user.id
+			}
+		}
+	});
+	if (!site) return res.status(404).end("Site not found");
 
-  try {
-    const post = await prisma.post.update({
-      where: {
-        id: id,
-      },
-      data: {
-        title,
-        description,
-        content,
-        slug,
-        image,
-        imageBlurhash: (await getBlurDataURL(image)) ?? undefined,
-        published,
-      },
-    });
-    if (subdomain) {
-      // revalidate for subdomain
-      await revalidate(
-        `https://${subdomain}.udium.bolingen.me`, // hostname to be revalidated
-        subdomain, // siteId
-        slug // slugname for the post
-      );
-    }
-    if (customDomain)
-      // revalidate for custom domain
-      await revalidate(
-        `https://${customDomain}`, // hostname to be revalidated
-        customDomain, // siteId
-        slug // slugname for the post
-      );
+	try {
+		const post = await prisma.post.update({
+			where: {
+				id: id
+			},
+			data: {
+				title,
+				description,
+				content,
+				slug,
+				image,
+				imageBlurhash: (await getBlurDataURL(image)) ?? undefined,
+				published
+			}
+		});
+		if (subdomain) {
+			// revalidate for subdomain
+			await revalidate(
+				`https://${subdomain}.udium.bolingen.me`, // hostname to be revalidated
+				subdomain, // siteId
+				slug // slugname for the post
+			);
+		}
+		if (customDomain)
+			// revalidate for custom domain
+			await revalidate(
+				`https://${customDomain}`, // hostname to be revalidated
+				customDomain, // siteId
+				slug // slugname for the post
+			);
 
-    return res.status(200).json(post);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).end(error);
-  }
+		return res.status(200).json(post);
+	} catch (error) {
+		console.error(error);
+		return res.status(500).end(error);
+	}
 }

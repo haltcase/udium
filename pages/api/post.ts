@@ -7,25 +7,25 @@ import { HttpMethod } from "@/types";
 import { authOptions } from "./auth/[...nextauth]";
 
 export default async function post(req: NextApiRequest, res: NextApiResponse) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (!session) return res.status(401).end();
+	const session = await unstable_getServerSession(req, res, authOptions);
+	if (!session) return res.status(401).end();
 
-  switch (req.method) {
-    case HttpMethod.GET:
-      return getPost(req, res, session);
-    case HttpMethod.POST:
-      return createPost(req, res, session);
-    case HttpMethod.DELETE:
-      return deletePost(req, res, session);
-    case HttpMethod.PUT:
-      return updatePost(req, res, session);
-    default:
-      res.setHeader("Allow", [
-        HttpMethod.GET,
-        HttpMethod.POST,
-        HttpMethod.DELETE,
-        HttpMethod.PUT,
-      ]);
-      return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+	switch (req.method) {
+		case HttpMethod.GET:
+			return getPost(req, res, session);
+		case HttpMethod.POST:
+			return createPost(req, res, session);
+		case HttpMethod.DELETE:
+			return deletePost(req, res, session);
+		case HttpMethod.PUT:
+			return updatePost(req, res, session);
+		default:
+			res.setHeader("Allow", [
+				HttpMethod.GET,
+				HttpMethod.POST,
+				HttpMethod.DELETE,
+				HttpMethod.PUT
+			]);
+			return res.status(405).end(`Method ${req.method} Not Allowed`);
+	}
 }

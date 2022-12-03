@@ -1,10 +1,10 @@
 export async function fetcher<JSON = unknown>(
-  input: RequestInfo,
-  init?: RequestInit
+	input: RequestInfo,
+	init?: RequestInit
 ): Promise<JSON> {
-  const response = await fetch(input, init);
+	const response = await fetch(input, init);
 
-  return response.json();
+	return response.json();
 }
 
 export default fetcher;
