@@ -20,7 +20,7 @@ interface IndexProps {
 	stringifiedData: string;
 }
 
-const Index = ({ stringifiedData }: IndexProps) => {
+const SiteIndex = ({ stringifiedData }: IndexProps) => {
 	const router = useRouter();
 
 	if (router.isFallback) {
@@ -208,3 +208,5 @@ export const getStaticProps: GetStaticProps<IndexProps, PathProps> = async ({
 		revalidate: 3600
 	};
 };
+
+export default SiteIndex;
